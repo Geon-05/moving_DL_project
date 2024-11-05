@@ -1,0 +1,45 @@
+데이터셋
+image_size : 224*224(all)
+tain and val(0.3)
+total : 7491 / paper : 2493, rock : 2359, scissors : 2639
+situation : 4
+test
+total : 328 / paper : 116, rock : 106, scissors : 106
+situation : 1
+
+모델셋
+model=keras.models.Sequential()
+model.add(keras.layers.Conv2D(32, (3,3), activation='relu', input_shape=(224,224,3)))
+model.add(keras.layers.MaxPool2D(2,2))
+model.add(keras.layers.Conv2D(64, (3,3), activation='relu'))
+model.add(keras.layers.BatchNormalization())
+model.add(keras.layers.MaxPooling2D((2,2)))
+model.add(keras.layers.Flatten())
+model.add(keras.layers.Dense(128, activation='relu', kernel_regularizer=keras.regularizers.l2(0.01)))
+model.add(keras.layers.Dropout(0.5))
+model.add(keras.layers.Dense(3, activation='softmax'))
+model.summary()
+
+증강셋
+datagen = ImageDataGenerator(
+    rotation_range=20, 
+    width_shift_range=0.2,
+    height_shift_range=0.2,
+    shear_range=0.2,
+    zoom_range=0.2,
+    horizontal_flip=True,
+    fill_mode='nearest'
+)
+
+하이퍼
+image_size : 224*224
+learning_rate : 0.0005
+epochs : 50
+
+- 트레인
+미기록
+
+- 테스트
+미기록
+
+미기록

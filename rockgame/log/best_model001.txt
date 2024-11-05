@@ -1,0 +1,80 @@
+데이터셋
+image_size : 224*224(all)
+tain and val(0.3)
+total : 7491 / paper : 2493, rock : 2359, scissors : 2639
+situation : 4
+test
+total : 328 / paper : 116, rock : 106, scissors : 106
+situation : 1
+
+모델셋
+model=keras.models.Sequential()
+model.add(keras.layers.Conv2D(32, (3,3), activation='relu', input_shape=(224,224,3)))
+model.add(keras.layers.MaxPool2D(2,2))
+model.add(keras.layers.Conv2D(64, (3,3), activation='relu'))
+model.add(keras.layers.BatchNormalization())
+model.add(keras.layers.MaxPooling2D((2,2)))
+model.add(keras.layers.Flatten())
+model.add(keras.layers.Dense(128, activation='relu', kernel_regularizer=keras.regularizers.l2(0.01)))
+model.add(keras.layers.Dropout(0.5))
+model.add(keras.layers.Dense(3, activation='softmax'))
+model.summary()
+
+증강셋
+datagen = ImageDataGenerator(
+    rotation_range=20, 
+    width_shift_range=0.2,
+    height_shift_range=0.2,
+    shear_range=0.2,
+    zoom_range=0.2,
+    horizontal_flip=True,
+    fill_mode='nearest'
+)
+
+하이퍼
+image_size : 224*224
+learning_rate : 0.0005
+epochs : 30
+
+c:\Users\zqrc0\anaconda3\envs\motionpy310\lib\site-packages\keras\src\trainers\data_adapters\py_dataset_adapter.py:121: UserWarning: Your `PyDataset` class should call `super().__init__(**kwargs)` in its constructor. `**kwargs` can include `workers`, `use_multiprocessing`, `max_queue_size`. Do not pass these arguments to `fit()`, as they will be ignored.
+  self._warn_if_super_not_called()
+Epoch 1/30
+164/164 ━━━━━━━━━━━━━━━━━━━━ 80s 465ms/step - accuracy: 0.4140 - loss: 5.9713 - val_accuracy: 0.3149 - val_loss: 2.2390
+Epoch 2/30
+164/164 ━━━━━━━━━━━━━━━━━━━━ 75s 457ms/step - accuracy: 0.5131 - loss: 1.9358 - val_accuracy: 0.4373 - val_loss: 1.6198
+Epoch 3/30
+164/164 ━━━━━━━━━━━━━━━━━━━━ 69s 417ms/step - accuracy: 0.5104 - loss: 1.5846 - val_accuracy: 0.6437 - val_loss: 1.3765
+Epoch 4/30
+164/164 ━━━━━━━━━━━━━━━━━━━━ 64s 392ms/step - accuracy: 0.5385 - loss: 1.4285 - val_accuracy: 0.3728 - val_loss: 1.9790
+Epoch 5/30
+164/164 ━━━━━━━━━━━━━━━━━━━━ 64s 393ms/step - accuracy: 0.5667 - loss: 1.3470 - val_accuracy: 0.6125 - val_loss: 1.2013
+Epoch 6/30
+164/164 ━━━━━━━━━━━━━━━━━━━━ 64s 390ms/step - accuracy: 0.5862 - loss: 1.2863 - val_accuracy: 0.5725 - val_loss: 1.2786
+Epoch 7/30
+164/164 ━━━━━━━━━━━━━━━━━━━━ 64s 390ms/step - accuracy: 0.5945 - loss: 1.2877 - val_accuracy: 0.5698 - val_loss: 1.4274
+Epoch 8/30
+164/164 ━━━━━━━━━━━━━━━━━━━━ 65s 398ms/step - accuracy: 0.6323 - loss: 1.2684 - val_accuracy: 0.7051 - val_loss: 1.1792
+Epoch 9/30
+164/164 ━━━━━━━━━━━━━━━━━━━━ 64s 392ms/step - accuracy: 0.6303 - loss: 1.3081 - val_accuracy: 0.6375 - val_loss: 1.2408
+Epoch 10/30
+164/164 ━━━━━━━━━━━━━━━━━━━━ 65s 397ms/step - accuracy: 0.6753 - loss: 1.2294 - val_accuracy: 0.8105 - val_loss: 1.0141
+Epoch 11/30
+164/164 ━━━━━━━━━━━━━━━━━━━━ 64s 391ms/step - accuracy: 0.6777 - loss: 1.2484 - val_accuracy: 0.4751 - val_loss: 2.1985
+Epoch 12/30
+164/164 ━━━━━━━━━━━━━━━━━━━━ 64s 391ms/step - accuracy: 0.6810 - loss: 1.2841 - val_accuracy: 0.7985 - val_loss: 1.0541
+Epoch 13/30
+...
+Epoch 29/30
+164/164 ━━━━━━━━━━━━━━━━━━━━ 64s 388ms/step - accuracy: 0.7413 - loss: 1.2483 - val_accuracy: 0.7131 - val_loss: 1.2485
+Epoch 30/30
+164/164 ━━━━━━━━━━━━━━━━━━━━ 64s 387ms/step - accuracy: 0.7582 - loss: 1.2337 - val_accuracy: 0.7980 - val_loss: 1.1346
+Output is truncated. View as a scrollable element or open in a text editor. Adjust cell output settings...
+
+- 테스트
+11/11 - 1s - 73ms/step - accuracy: 0.5549 - loss: 1.5674
+test_loss : 1.5673636198043823
+test_accuracy : 0.5548780560493469
+
+71/71 - 4s - 57ms/step - accuracy: 0.8630 - loss: 0.9710
+test_loss : 0.9709633588790894
+test_accuracy : 0.8629893064498901

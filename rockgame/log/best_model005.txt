@@ -1,0 +1,55 @@
+데이터셋
+image_size : 224*224(all)
+tain 0.6 / val 0.24 / test 0.16
+total : 7491 / paper : 2493, rock : 2359, scissors : 2639
+situation : 4
+
+모델셋
+model = models.Sequential()
+model.add(layers.Input(shape=(224, 224, 3)))  # 입력 크기 지정
+model.add(layers.Conv2D(32, (3, 3), activation='relu'))
+model.add(keras.layers.MaxPool2D(2,2))
+model.add(keras.layers.Conv2D(64, (3,3), activation='relu'))
+model.add(keras.layers.BatchNormalization())
+model.add(keras.layers.MaxPooling2D((2,2)))
+model.add(keras.layers.Dropout(0.5))
+model.add(keras.layers.Flatten())
+model.add(keras.layers.Dense(128, activation='relu', kernel_regularizer=keras.regularizers.l2(0.01)))
+model.add(keras.layers.Dropout(0.5))
+model.add(keras.layers.Dense(3, activation='softmax'))
+model.summary()
+
+증강셋
+사용하지 않음
+
+하이퍼
+image_size : 224*224
+learning_rate : 0.00001
+epochs : 10
+
+- 트레인
+Epoch 1/10
+141/141 ━━━━━━━━━━━━━━━━━━━━ 51s 348ms/step - accuracy: 0.5420 - loss: 3.4512 - val_accuracy: 0.8159 - val_loss: 3.0555
+Epoch 2/10
+141/141 ━━━━━━━━━━━━━━━━━━━━ 80s 333ms/step - accuracy: 0.9000 - loss: 2.3649 - val_accuracy: 0.9733 - val_loss: 2.5203
+Epoch 3/10
+141/141 ━━━━━━━━━━━━━━━━━━━━ 48s 337ms/step - accuracy: 0.9507 - loss: 2.0097 - val_accuracy: 0.9911 - val_loss: 2.0393
+Epoch 4/10
+141/141 ━━━━━━━━━━━━━━━━━━━━ 48s 337ms/step - accuracy: 0.9762 - loss: 1.8265 - val_accuracy: 0.9989 - val_loss: 1.7522
+Epoch 5/10
+141/141 ━━━━━━━━━━━━━━━━━━━━ 47s 336ms/step - accuracy: 0.9899 - loss: 1.7098 - val_accuracy: 0.9994 - val_loss: 1.6357
+Epoch 6/10
+141/141 ━━━━━━━━━━━━━━━━━━━━ 49s 346ms/step - accuracy: 0.9908 - loss: 1.6383 - val_accuracy: 0.9989 - val_loss: 1.5632
+Epoch 7/10
+141/141 ━━━━━━━━━━━━━━━━━━━━ 48s 339ms/step - accuracy: 0.9920 - loss: 1.5715 - val_accuracy: 0.9994 - val_loss: 1.5058
+Epoch 8/10
+141/141 ━━━━━━━━━━━━━━━━━━━━ 48s 338ms/step - accuracy: 0.9973 - loss: 1.5058 - val_accuracy: 0.9994 - val_loss: 1.4546
+Epoch 9/10
+141/141 ━━━━━━━━━━━━━━━━━━━━ 48s 341ms/step - accuracy: 0.9976 - loss: 1.4538 - val_accuracy: 1.0000 - val_loss: 1.3995
+Epoch 10/10
+141/141 ━━━━━━━━━━━━━━━━━━━━ 48s 341ms/step - accuracy: 0.9974 - loss: 1.3963 - val_accuracy: 1.0000 - val_loss: 1.3478
+
+- 테스트
+38/38 - 3s - 78ms/step - accuracy: 0.9992 - loss: 1.3488
+test_loss : 1.3488407135009766
+test_accuracy : 0.999165952205658

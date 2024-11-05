@@ -1,0 +1,78 @@
+데이터셋
+image_size : 224*224(all)
+tain and val(0.3)
+total : 7491 / paper : 2493, rock : 2359, scissors : 2639
+situation : 4
+test
+total : 328 / paper : 116, rock : 106, scissors : 106
+situation : 1
+
+모델셋
+model=keras.models.Sequential()
+model.add(keras.layers.Conv2D(32, (3,3), activation='relu', input_shape=(224,224,3)))
+model.add(keras.layers.MaxPool2D(2,2))
+model.add(keras.layers.Conv2D(64, (3,3), activation='relu'))
+model.add(keras.layers.BatchNormalization())
+model.add(keras.layers.MaxPooling2D((2,2)))
+model.add(keras.layers.Flatten())
+model.add(keras.layers.Dense(128, activation='relu', kernel_regularizer=keras.regularizers.l2(0.01)))
+model.add(keras.layers.Dense(3, activation='softmax'))
+model.summary()
+
+증강셋
+datagen = ImageDataGenerator(
+    rotation_range=20, 
+    width_shift_range=0.2,
+    height_shift_range=0.2,
+    shear_range=0.2,
+    zoom_range=0.2,
+    horizontal_flip=True,
+    fill_mode='nearest'
+)
+
+하이퍼
+image_size : 224*224
+learning_rate : 0.00001
+epochs : 50
+
+- 트레인
+Epoch 1/50
+164/164 ━━━━━━━━━━━━━━━━━━━━ 85s 512ms/step - accuracy: 0.5341 - loss: 3.1749 - val_accuracy: 0.4929 - val_loss: 2.9905
+Epoch 2/50
+164/164 ━━━━━━━━━━━━━━━━━━━━ 83s 502ms/step - accuracy: 0.5911 - loss: 2.8112 - val_accuracy: 0.5138 - val_loss: 2.7487
+Epoch 3/50
+164/164 ━━━━━━━━━━━━━━━━━━━━ 74s 451ms/step - accuracy: 0.6408 - loss: 2.5930 - val_accuracy: 0.7095 - val_loss: 2.4713
+Epoch 4/50
+164/164 ━━━━━━━━━━━━━━━━━━━━ 73s 446ms/step - accuracy: 0.6638 - loss: 2.4840 - val_accuracy: 0.7282 - val_loss: 2.3012
+Epoch 5/50
+164/164 ━━━━━━━━━━━━━━━━━━━━ 71s 432ms/step - accuracy: 0.7028 - loss: 2.3467 - val_accuracy: 0.8194 - val_loss: 2.1363
+Epoch 6/50
+164/164 ━━━━━━━━━━━━━━━━━━━━ 70s 428ms/step - accuracy: 0.7281 - loss: 2.2430 - val_accuracy: 0.7883 - val_loss: 2.0959
+Epoch 7/50
+164/164 ━━━━━━━━━━━━━━━━━━━━ 70s 426ms/step - accuracy: 0.7399 - loss: 2.1721 - val_accuracy: 0.8946 - val_loss: 1.9118
+Epoch 8/50
+164/164 ━━━━━━━━━━━━━━━━━━━━ 70s 429ms/step - accuracy: 0.7761 - loss: 2.0758 - val_accuracy: 0.7607 - val_loss: 2.0083
+Epoch 9/50
+164/164 ━━━━━━━━━━━━━━━━━━━━ 70s 427ms/step - accuracy: 0.7734 - loss: 2.0339 - val_accuracy: 0.7402 - val_loss: 2.0761
+Epoch 10/50
+164/164 ━━━━━━━━━━━━━━━━━━━━ 71s 434ms/step - accuracy: 0.7797 - loss: 1.9877 - val_accuracy: 0.8563 - val_loss: 1.8037
+Epoch 11/50
+164/164 ━━━━━━━━━━━━━━━━━━━━ 71s 430ms/step - accuracy: 0.7902 - loss: 1.9398 - val_accuracy: 0.7843 - val_loss: 1.8564
+Epoch 12/50
+164/164 ━━━━━━━━━━━━━━━━━━━━ 73s 443ms/step - accuracy: 0.8062 - loss: 1.8704 - val_accuracy: 0.8350 - val_loss: 1.7236
+Epoch 13/50
+...
+Epoch 49/50
+164/164 ━━━━━━━━━━━━━━━━━━━━ 69s 421ms/step - accuracy: 0.9060 - loss: 0.8470 - val_accuracy: 0.9302 - val_loss: 0.7544
+Epoch 50/50
+164/164 ━━━━━━━━━━━━━━━━━━━━ 70s 427ms/step - accuracy: 0.9047 - loss: 0.8373 - val_accuracy: 0.9337 - val_loss: 0.7501
+Output is truncated. View as a scrollable element or open in a text editor. Adjust cell output settings...
+
+- 테스트
+11/11 - 1s - 73ms/step - accuracy: 0.5671 - loss: 1.7619
+test_loss : 1.7618767023086548
+test_accuracy : 0.5670731663703918
+
+71/71 - 4s - 60ms/step - accuracy: 0.9337 - loss: 0.7501
+test_loss : 0.7500661611557007
+test_accuracy : 0.9337188601493835
