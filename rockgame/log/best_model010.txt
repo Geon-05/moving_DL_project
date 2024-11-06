@@ -1,0 +1,68 @@
+**Note**
+Transfer Learning >>> (ResNet50) 모델 적용
+**********
+
+데이터셋
+image_size : 128*128(all)
+tain 0.6 / val 0.24 / test 0.16
+total : 7491 / paper : 2493, rock : 2359, scissors : 2639
+situation : 4
+
+모델셋
+# 사전 학습된 ResNet50 모델을 불러오고 마지막 분류 레이어를 제외합니다.
+base_model = ResNet50(weights='imagenet', include_top=False, input_shape=(128, 128, 3))
+base_model.trainable = False  # 사전 학습된 가중치를 고정합니다.
+# 새로운 모델 구성
+model = models.Sequential([
+    base_model,
+    layers.GlobalAveragePooling2D(),  # 평탄화 작업
+    layers.Dense(128, activation='relu'),  # 추가 레이어
+    layers.Dropout(0.5),  # 과적합 방지를 위한 드롭아웃
+    layers.Dense(3, activation='softmax')  # 가위, 바위, 보 3개 클래스를 위한 출력 레이어
+])
+
+증강셋
+사용하지 않음
+
+하이퍼
+image_size : 128*128
+learning_rate : 0.00001
+epochs : 50
+
+- 트레인
+Epoch 1/50
+141/141 ━━━━━━━━━━━━━━━━━━━━ 43s 281ms/step - accuracy: 0.3406 - loss: 1.1514 - val_accuracy: 0.3532 - val_loss: 1.0899
+Epoch 2/50
+141/141 ━━━━━━━━━━━━━━━━━━━━ 39s 275ms/step - accuracy: 0.3489 - loss: 1.1476 - val_accuracy: 0.3521 - val_loss: 1.0892
+Epoch 3/50
+141/141 ━━━━━━━━━━━━━━━━━━━━ 38s 272ms/step - accuracy: 0.3453 - loss: 1.1305 - val_accuracy: 0.3521 - val_loss: 1.0887
+Epoch 4/50
+141/141 ━━━━━━━━━━━━━━━━━━━━ 38s 273ms/step - accuracy: 0.3533 - loss: 1.1325 - val_accuracy: 0.3838 - val_loss: 1.0879
+Epoch 5/50
+141/141 ━━━━━━━━━━━━━━━━━━━━ 38s 270ms/step - accuracy: 0.3499 - loss: 1.1340 - val_accuracy: 0.3899 - val_loss: 1.0872
+Epoch 6/50
+141/141 ━━━━━━━━━━━━━━━━━━━━ 39s 275ms/step - accuracy: 0.3356 - loss: 1.1320 - val_accuracy: 0.3854 - val_loss: 1.0865
+Epoch 7/50
+141/141 ━━━━━━━━━━━━━━━━━━━━ 38s 269ms/step - accuracy: 0.3548 - loss: 1.1184 - val_accuracy: 0.3782 - val_loss: 1.0859
+Epoch 8/50
+141/141 ━━━━━━━━━━━━━━━━━━━━ 38s 270ms/step - accuracy: 0.3641 - loss: 1.1158 - val_accuracy: 0.3915 - val_loss: 1.0852
+Epoch 9/50
+141/141 ━━━━━━━━━━━━━━━━━━━━ 37s 263ms/step - accuracy: 0.3509 - loss: 1.1234 - val_accuracy: 0.4010 - val_loss: 1.0846
+Epoch 10/50
+141/141 ━━━━━━━━━━━━━━━━━━━━ 37s 265ms/step - accuracy: 0.3598 - loss: 1.1125 - val_accuracy: 0.3988 - val_loss: 1.0839
+Epoch 11/50
+141/141 ━━━━━━━━━━━━━━━━━━━━ 38s 267ms/step - accuracy: 0.3540 - loss: 1.1137 - val_accuracy: 0.4027 - val_loss: 1.0832
+Epoch 12/50
+141/141 ━━━━━━━━━━━━━━━━━━━━ 38s 268ms/step - accuracy: 0.3607 - loss: 1.1050 - val_accuracy: 0.4082 - val_loss: 1.0826
+Epoch 13/50
+...
+Epoch 49/50
+141/141 ━━━━━━━━━━━━━━━━━━━━ 41s 291ms/step - accuracy: 0.4622 - loss: 1.0618 - val_accuracy: 0.4744 - val_loss: 1.0584
+Epoch 50/50
+141/141 ━━━━━━━━━━━━━━━━━━━━ 39s 274ms/step - accuracy: 0.4573 - loss: 1.0603 - val_accuracy: 0.4766 - val_loss: 1.0578
+
+
+- 테스트
+38/38 - 1s - 22ms/step - accuracy: 0.8240 - loss: 1.2062
+test_loss : 1.2062177658081055
+test_accuracy : 0.8240200281143188
