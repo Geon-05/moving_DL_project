@@ -1,0 +1,49 @@
+**Note**
+Transfer Learning >>> (ResNet50) 모델 적용
+local -> kaggle >>> GPU사용을 위해 local변경
+변경후 장점 : 컴퓨터 성능에 구애받지 않고 동일한 환경에서 학습가능 / 안정적
+**********
+
+데이터셋
+image_size : 224*224(all)
+tain 0.6 / val 0.24 / test 0.16
+total : 7491 / paper : 2493, rock : 2359, scissors : 2639
+situation : 4
+
+모델셋
+# 사전 학습된 ResNet50 모델을 불러오고 마지막 분류 레이어를 제외합니다.
+base_model = ResNet50(weights='imagenet', include_top=False, input_shape=(224, 224, 3))
+base_model.trainable = False  # 사전 학습된 가중치를 고정합니다.
+
+# 새로운 모델 구성
+model = models.Sequential([
+    base_model,
+    layers.GlobalAveragePooling2D(),  # 평탄화 작업
+    layers.Dense(128, activation='relu'),  # 추가 레이어
+    layers.Dropout(0.5),  # 과적합 방지를 위한 드롭아웃
+    layers.Dense(3, activation='softmax')  # 가위, 바위, 보 3개 클래스를 위한 출력 레이어
+])
+
+증강셋
+start = time.time()
+datagen = ImageDataGenerator(
+    rotation_range=20,     # 이미지 회전
+    width_shift_range=0.2, # 가로로 이동
+    height_shift_range=0.2,# 세로로 이동
+    shear_range=0.2,       # 시야각 변환
+    zoom_range=0.2,        # 확대/축소
+    horizontal_flip=True,  # 좌우 반전
+    fill_mode='nearest'
+)
+
+하이퍼
+image_size : 224*224
+learning_rate : 0.00001
+epochs : 100
+
+- 트레인 / 시간 : 
+
+
+
+- 테스트
+
